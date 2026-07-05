@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FORSHIP — инфраструктурная компания</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;900&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#f7f8fa;
+    --ink:#0a0a0a;
+    --grey:#6b7078;
+    --blue:#1652f0;
+    --blue-soft:#eaf0fe;
+    --line:#e6e8ec;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--blue); color:#fff;}
+  a{color:inherit; text-decoration:none;}
+
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw; background:rgba(255,255,255,0.85); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  header .logo{ font-family:'Golos Text',sans-serif; font-weight:900; font-size:1.3rem; letter-spacing:0.02em; }
+  header nav{ display:flex; gap:2.5rem; font-size:0.9rem; }
+  header nav a{ color:var(--grey); transition:color 0.25s; }
+  header nav a:hover{ color:var(--blue); }
+
+  section{ padding:160px 6vw 100px; border-bottom:1px solid var(--line); }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:0.75rem; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--blue); margin-bottom:20px; display:block;
+  }
+
+  /* HERO */
+  .hero{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding-top:120px; position:relative; }
+  .hero h1{
+    font-family:'Golos Text',sans-serif; font-weight:900;
+    font-size:clamp(2.6rem,7vw,5.5rem); line-height:1.05; letter-spacing:-0.01em; max-width:900px;
+  }
+  .hero h1 .blue{ color:var(--blue); }
+  .hero p{ margin-top:2rem; font-size:1.15rem; color:var(--grey); max-width:560px; line-height:1.8; font-weight:300; }
+  .hero .stack{ margin-top:2.5rem; display:flex; gap:0.8rem; flex-wrap:wrap; }
+  .hero .stack span{
+    font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:8px 16px;
+    border:1px solid var(--line); border-radius:100px; color:var(--grey);
+  }
+
+  /* diagram */
+  .diagram-wrap{ position:relative; margin-top:4rem; height:220px; }
+  svg.diagram{ width:100%; height:100%; overflow:visible; }
+  .diagram circle.node{ fill:var(--blue-soft); stroke:var(--blue); stroke-width:1.2; }
+  .diagram text{ font-family:'JetBrains Mono',monospace; font-size:11px; fill:var(--grey); }
+  .diagram line{
+    stroke:var(--blue); stroke-width:1; opacity:0;
+    stroke-dasharray:200; stroke-dashoffset:200;
+    animation:draw 1.6s ease forwards;
+  }
+  .diagram circle.center{ fill:var(--blue); opacity:0; animation:popIn 0.6s ease forwards; animation-delay:1.4s; }
+  @keyframes draw{ to{ stroke-dashoffset:0; opacity:0.6; } }
+  @keyframes popIn{ to{ opacity:1; } }
+
+  .reveal{ opacity:0; transform:translateY(30px); transition:opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.show{ opacity:1; transform:translateY(0); }
+
+  h2.title{
+    font-family:'Golos Text',sans-serif; font-weight:700; font-size:clamp(1.8rem,4vw,2.6rem);
+    margin-bottom:3rem; letter-spacing:-0.01em;
+  }
+
+  /* directions grid */
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .card{ background:#fff; padding:36px 30px; transition:background 0.3s; }
+  .card:hover{ background:var(--bg-alt); }
+  .card .code{ font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--blue); }
+  .card h3{ font-family:'Golos Text',sans-serif; font-size:1.4rem; margin:0.8rem 0 0.6rem; }
+  .card p{ color:var(--grey); font-size:0.95rem; line-height:1.6; font-weight:300; }
+
+  /* projects */
+  .projects{ background:var(--bg-alt); }
+  .project-card{
+    background:#0a0a0a; color:#ededea; border-radius:4px; padding:60px 48px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:2rem;
+    position:relative; overflow:hidden;
+  }
+  .project-card::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 80% 20%, rgba(255,43,43,0.15), transparent 60%);
+  }
+  .project-card .name{ font-family:'Golos Text',sans-serif; font-weight:900; font-size:2.6rem; letter-spacing:0.05em; position:relative; }
+  .project-card .desc{ max-width:360px; color:#9a9a95; font-size:0.95rem; font-weight:300; line-height:1.7; position:relative; }
+  .project-card .btn{
+    position:relative; display:inline-block; margin-top:1.2rem; padding:12px 26px;
+    border:1px solid #ff2b2b; color:#ff2b2b; font-family:'JetBrains Mono',monospace; font-size:0.85rem;
+    transition:all 0.3s;
+  }
+  .project-card .btn:hover{ background:#ff2b2b; color:#0a0a0a; }
+
+  /* contacts */
+  footer{ padding:100px 6vw 60px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; }
+  footer .logo{ font-family:'Golos Text',sans-serif; font-weight:900; font-size:1.6rem; }
+  footer .meta{ font-family:'JetBrains Mono',monospace; font-size:0.85rem; color:var(--grey); line-height:2; }
+
+  @media (max-width:768px){
+    header nav{ display:none; }
+    section{ padding:120px 6vw 70px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">FORSHIP</div>
+  <nav>
+    <a href="#directions">Направления</a>
+    <a href="#projects">Проекты</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="eyebrow">holding · инфраструктура</span>
+  <h1>Работаем на <span class="blue">стыке</span><br>логистики, права<br>и городских проектов.</h1>
+  <p>FORSHIP — управляющая и инфраструктурная компания. Объединяем направления деятельности, соответствующие ОКВЭД, и развиваем культурные проекты городского масштаба.</p>
+  <div class="stack">
+    <span>Логистика</span><span>Право</span><span>Консалтинг</span><span>Капитал</span><span>Клининг</span>
+  </div>
+
+  <div class="diagram-wrap">
+    <svg class="diagram" viewBox="0 0 900 220">
+      <circle class="node" cx="80" cy="40" r="34"/><text x="80" y="45" text-anchor="middle">логистика</text>
+      <circle class="node" cx="260" cy="180" r="34"/><text x="260" y="185" text-anchor="middle">право</text>
+      <circle class="node" cx="450" cy="30" r="34"/><text x="450" y="35" text-anchor="middle">финансы</text>
+      <circle class="node" cx="640" cy="180" r="34"/><text x="640" y="185" text-anchor="middle">управление</text>
+      <circle class="node" cx="820" cy="40" r="34"/><text x="820" y="45" text-anchor="middle">город</text>
+      <line x1="80" y1="40" x2="450" y2="110"/>
+      <line x1="260" y1="180" x2="450" y2="110"/>
+      <line x1="450" y1="30" x2="450" y2="110"/>
+      <line x1="640" y1="180" x2="450" y2="110"/>
+      <line x1="820" y1="40" x2="450" y2="110"/>
+      <circle class="center" cx="450" cy="110" r="8"/>
+    </svg>
+  </div>
+</section>
+
+<!-- DIRECTIONS -->
+<section id="directions" class="reveal">
+  <span class="eyebrow">направления</span>
+  <h2 class="title">Пять направлений, один холдинг</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="code">ОКВЭД · логистика</div>
+      <h3>FORSHIP Logistics</h3>
+      <p>Порты, водный транспорт, арктические маршруты, консалтинг.</p>
+    </div>
+    <div class="card">
+      <div class="code">ОКВЭД · право</div>
+      <h3>FORSHIP Legal</h3>
+      <p>Юридическое сопровождение бизнеса. Контракты, инвестиции, недвижимость.</p>
+    </div>
+    <div class="card">
+      <div class="code">ОКВЭД · консалтинг</div>
+      <h3>FORSHIP Consulting</h3>
+      <p>Развитие территорий, городские пространства, индустриальные объекты, инвестиционный анализ.</p>
+    </div>
+    <div class="card">
+      <div class="code">ОКВЭД · финансы</div>
+      <h3>FORSHIP Capital</h3>
+      <p>Инвестиционные инструменты и финансовое управление проектами холдинга.</p>
+    </div>
+    <div class="card">
+      <div class="code">ОКВЭД · клининг</div>
+      <h3>FORSHIP Cleaning</h3>
+      <p>Обслуживание индустриальных объектов, портов, коммерческой недвижимости и площадок холдинга.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects reveal">
+  <span class="eyebrow">проекты</span>
+  <h2 class="title">Городские институции</h2>
+  <div class="project-card">
+    <div>
+      <div class="name">РЫНОК</div>
+      <div class="desc">Бывший рынок. Место торговли. Теперь — место обмена культурой. Независимая электронная сцена Архангельска и Арктики.</div>
+      <a class="btn" href="https://club-rynok.vercel.app" target="_blank">Перейти на сайт →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<footer id="contacts">
+  <div>
+    <div class="logo">FORSHIP</div>
+  </div>
+  <div class="meta">
+    forship.рф<br>
+    Архангельск · Арктика<br>
+    info@forship.рф
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
